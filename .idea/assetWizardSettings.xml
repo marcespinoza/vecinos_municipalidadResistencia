@@ -88,8 +88,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_garbage_truck" />
-                            <entry key="sourceFile" value="F:\Android\Vecinos\app\src\main\res\raw\garbage-truck.svg" />
+                            <entry key="outputName" value="ic_location_icon" />
+                            <entry key="sourceFile" value="F:\Android\Vecinos\app\src\main\res\drawable\location_icon.svg" />
                           </map>
                         </option>
                       </PersistentState>
