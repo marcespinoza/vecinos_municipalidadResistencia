@@ -33,6 +33,4 @@ public class Servicios_activity extends AppCompatActivity {
 
     }
 
-
-
 }

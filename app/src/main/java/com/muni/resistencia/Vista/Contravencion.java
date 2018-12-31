@@ -19,9 +19,9 @@ import com.muni.resistencia.R;
 
 public class Contravencion extends Fragment {
 
-    Dialog popup;
+    Dialog popup, evaluacionPopUp;
     GridLayout mainGrid;
-    Button reclamo;
+    Button reclamo, evaluacion;
 
     public Contravencion() {
         // Required empty public constructor
@@ -54,6 +54,17 @@ public class Contravencion extends Fragment {
                 popup.dismiss();
                 Intent i = new Intent(getActivity(), Reclamo_activity.class);
                 startActivity(i);
+            }
+        });
+        evaluacion = popup.findViewById(R.id.evaluacion);
+        evaluacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popup.dismiss();
+                evaluacionPopUp = new Dialog(getActivity());
+                evaluacionPopUp.setContentView(R.layout.popup_calificacion);
+                evaluacionPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
+                evaluacionPopUp.show();
             }
         });
         popup.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;

@@ -8,12 +8,15 @@ import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.UiThread;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,6 +37,8 @@ import java.util.List;
 import java.util.Locale;
 
 import me.toptas.fancyshowcase.FancyShowCaseView;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -105,23 +110,44 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("yyyy / MM / dd ");
         String strDate = "Current Date : " + mdformat.format(calendar.getTime());
-        OkHttpClient client = new OkHttpClient();
 
+
+        post( new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Something went wrong
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseStr = response.body().string();
+                    Toast.makeText(Reclamo_activity.this, "Reclamo registrado", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Reclamo_activity.this, "Error al registrar reclamo", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+    }
+
+    Call post(Callback callback) {
+        OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
-                .add("message", "Your message")
+                .add("idServicio", "Your message")
+                .add("idComision", "Your message")
+                .add("ubicacion", "Your message")
+                .add("estado", "Your message")
+                .add("fecha", "20/25/2018")
                 .build();
         Request request = new Request.Builder()
-                .url("http://www.foo.bar/index.php")
+                .url("http://resistencia.gob.ar/vecinosdb/vecinos_api/index.php/api/reclamo")
                 .post(formBody)
                 .build();
-
-        try {
-            Response response = client.newCall(request).execute();
-
-            // Do something with the response.
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+        return call;
     }
 
     private void showcase(){

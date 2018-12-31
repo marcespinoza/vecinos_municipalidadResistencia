@@ -4,11 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/blue_grey_500"
+    android:padding="10dp"
+    android:background="@color/blue_grey_900"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="¿Como calificarías este servicio?"
         android:fontFamily="@font/roboto_mediumitalic"
@@ -17,38 +19,47 @@
         android:textSize="20sp"/>
 
     <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp"
-    android:layout_marginBottom="8dp"
-    android:textSize="19sp"
-    android:background="@drawable/rounded_buena"
-    android:textColor="@color/white"
-    android:fontFamily="@font/roboto_bold"
-    android:text="Buena"/>
+        android:id="@+id/buenoBtn"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="50dp"
+         android:layout_marginRight="50dp"
+         android:layout_marginBottom="8dp"
+         android:textSize="19sp"
+         android:background="@drawable/rounded_buena"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+         android:clickable="true"
+          android:textColor="@color/white"
+         android:fontFamily="@font/roboto_bold"
+         android:text="Bueno"/>
 
     <Button
+        android:id="@+id/regularBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="8dp"
         android:textSize="19sp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         android:textColor="@color/white"
         android:fontFamily="@font/roboto_bold"
         android:background="@drawable/rounded_regular"
         android:text="Regular"/>
 
     <Button
+        android:id="@+id/maloBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:textSize="19sp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         android:textColor="@color/white"
         android:fontFamily="@font/roboto_bold"
         android:background="@drawable/rounded_mala"
-        android:text="Mala"/>
+        android:text="Malo"/>
 
 </LinearLayout>
