@@ -37,7 +37,7 @@ public class LoginPresentador implements LoginInterface.Presentador {
     }
 
     @Override
-    public void exitoLogin(String apynom) {
-        lVista.exitoLogin();
+    public void exitoLogin(String idComision) {
+        lVista.exitoLogin(idComision);
     }
 }

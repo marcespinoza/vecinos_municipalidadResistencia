@@ -13,7 +13,7 @@ public interface LoginInterface {
         void enviarUsuario();
         void campoVacio();
         void errorUsuario();
-        void exitoLogin();
+        void exitoLogin(String idComision);
     }
     interface Presentador{
         void enviarUsuario(String documento, String clave);

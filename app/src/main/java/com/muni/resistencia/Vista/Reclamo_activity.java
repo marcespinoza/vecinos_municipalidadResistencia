@@ -56,7 +56,7 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
     Button reclamoBtn;
     Marker marker = null;
     LatLng latLong;
-    String IdServicio, IdComision;
+    String idServicio, IdComision;
     ReclamoInterface.Presentador presentador;
 
     @Override
@@ -66,7 +66,7 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
         presentador = new ReclamoPresentador(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            IdServicio = extras.getString("IdServicio");
+            idServicio = extras.getString("idServicio");
             IdComision = extras.getString("IdComision");
         }
         ubicacion = findViewById(R.id.ubicacion);
@@ -85,8 +85,8 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
                 if(ubicacion.getText().equals("")){
                      Snackbar snackbar = Snackbar.make(coordinatorLayout, "Selecciona una ubicación", Snackbar.LENGTH_LONG);
                      snackbar.show();
-                }else{
-                    presentador.guardarReclamo(IdComision, IdServicio, ubicacion.getText().toString());
+                }else{                    
+                    presentador.guardarReclamo(IdComision, idServicio, ubicacion.getText().toString());
                 }
             }
         });
@@ -151,7 +151,14 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
     }
 
     @Override
-    public void mostrarToast() {
-
+    public void mostrarToast(final String mensaje) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                final Toast toast = Toast.makeText(Reclamo_activity.this, mensaje,  Toast.LENGTH_LONG);
+                toast.show();
+                ubicacion.setText("");
+                marker.remove();
+            }
+        });
     }
 }

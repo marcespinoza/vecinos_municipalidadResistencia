@@ -7,12 +7,12 @@ public interface EvaluacionInterface {
         void errorRegistro();
     }
     interface Presentador{
-        void enviarEvaluacion(int idServicio, String calificacion);
+        void enviarEvaluacion(String idServicio, String calificacion);
         void exitoRegistro();
         void errorRegistro();
     }
     interface Modelo{
-        void guardarEvaluacion(int idServicio, String calificacion);
+        void guardarEvaluacion(String idServicio, String calificacion);
     }
 
 }

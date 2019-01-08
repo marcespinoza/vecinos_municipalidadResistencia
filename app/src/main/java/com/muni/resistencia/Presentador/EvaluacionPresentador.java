@@ -8,7 +8,7 @@ public class EvaluacionPresentador implements EvaluacionInterface.Presentador {
     }
 
     @Override
-    public void enviarEvaluacion() {
+    public void enviarEvaluacion(String idServicio, String calificacion) {
 
     }
 

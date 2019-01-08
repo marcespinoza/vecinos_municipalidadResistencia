@@ -23,12 +23,13 @@ public class FragmentServicios extends Fragment {
     GridLayout mainGrid;
     Dialog popup, evaluacionPopUp, evaluacionResiduoPopUp;
     Button reclamo, evaluacion, bueno, regular, malo;
-    int iDservicio;
+    String idServicio, idComision;
     EvaluacionInterface.Presentador evaluacionPresentador;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        idComision = getActivity().getIntent().getExtras().getString("idComision");
     }
 
     private void setGridListener(final GridLayout gridLayout){
@@ -38,16 +39,16 @@ public class FragmentServicios extends Fragment {
                 @Override
                 public void onClick(View view) {
                     switch (gridLayout.indexOfChild(view)){
-                        case 1: iDservicio = 1; break;
-                        case 2: iDservicio = 2; break;
-                        case 3: iDservicio = 3; break;
-                        case 4: iDservicio = 4; break;
-                        case 5: iDservicio = 5; break;
-                        case 6: iDservicio = 6; break;
-                        case 7: iDservicio = 7; break;
-                        case 8: iDservicio = 8; break;
-                        case 9: iDservicio = 9; break;
-                        case 10: iDservicio = 10; break;
+                        case 1: idServicio = "1"; break;
+                        case 2: idServicio = "2"; break;
+                        case 3: idServicio = "3"; break;
+                        case 4: idServicio = "4"; break;
+                        case 5: idServicio = "5"; break;
+                        case 6: idServicio = "6"; break;
+                        case 7: idServicio = "7"; break;
+                        case 8: idServicio = "8"; break;
+                        case 9: idServicio = "9"; break;
+                        case 10: idServicio = "10"; break;
                     }
                     popup.show();
                 }
@@ -69,7 +70,7 @@ public class FragmentServicios extends Fragment {
             @Override
             public void onClick(View view) {
                 popup.dismiss();
-                if(iDservicio!=3){
+                if(!idServicio.equalsIgnoreCase("3")){
                 evaluacionPopUp = new Dialog(getActivity());
                 evaluacionPopUp.setContentView(R.layout.popup_calificacion);
                 evaluacionPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
@@ -77,21 +78,21 @@ public class FragmentServicios extends Fragment {
                 bueno.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        evaluacionPresentador.enviarEvaluacion(iDservicio, "bueno");
+                        evaluacionPresentador.enviarEvaluacion(idServicio, "bueno");
                     }
                 });
                 Button regular = evaluacionPopUp.findViewById(R.id.regularBtn);
                 regular.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        evaluacionPresentador.enviarEvaluacion(iDservicio, "regular");
+                        evaluacionPresentador.enviarEvaluacion(idServicio, "regular");
                     }
                 });
                 Button malo = evaluacionPopUp.findViewById(R.id.maloBtn);
                 malo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        evaluacionPresentador.enviarEvaluacion(iDservicio, "malo");
+                        evaluacionPresentador.enviarEvaluacion(idServicio, "malo");
                     }
                 });
                 evaluacionPopUp.show();
@@ -108,8 +109,8 @@ public class FragmentServicios extends Fragment {
             public void onClick(View view) {
                 popup.dismiss();
                 Intent i = new Intent(getActivity(), Reclamo_activity.class);
-                i.putExtra("IdServicio", iDservicio);
-                i.putExtra("IdComision", iDservicio);
+                i.putExtra("idServicio", idServicio);
+                i.putExtra("IdComision", idComision);
                 startActivity(i);
             }
         });

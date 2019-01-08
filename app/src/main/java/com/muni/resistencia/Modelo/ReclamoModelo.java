@@ -40,7 +40,7 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
                 .add("idComision", idComision)
                 .add("idServicio", idServicio)
                 .add("ubicacion", ubicacion)
-                .add("estado", "pendiente")
+                .add("estado", "0")
                 .add("fecha", fechaActual)
                 .build();
         Request request = new Request.Builder()
@@ -57,9 +57,9 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    presentador.mostrarToast("Error al registrar reclamo");
-                } else {
                     presentador.mostrarToast("Reclamo registrado correctamente");
+                } else {
+                    presentador.mostrarToast("Error al registrar reclamo");
                 }
             }
         });
@@ -68,6 +68,6 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
 
     @Override
     public void guardarReclamo(String idComision, String idServicio, String ubicacion) {
-
+        post(idComision, idServicio, ubicacion);
     }
 }

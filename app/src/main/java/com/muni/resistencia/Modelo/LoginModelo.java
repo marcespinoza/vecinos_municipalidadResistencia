@@ -38,8 +38,8 @@ public class LoginModelo implements LoginInterface.Modelo {
 
     @Override
     public void verificarUsuario(String documento, String clave) {
-        lPresentador.exitoLogin("marcelo");
-       /* post(documento, clave,  new Callback() {
+
+        post(documento, clave,  new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -52,7 +52,7 @@ public class LoginModelo implements LoginInterface.Modelo {
                             String presidente = response.body().string();
                             JSONObject jObject = new JSONObject(presidente);
                             if (jObject.getString("mensaje").equalsIgnoreCase( "true")) {
-                                lPresentador.exitoLogin(jObject.getString("nombre"));
+                                lPresentador.exitoLogin(jObject.getString("idComision"));
                             } else {
                                 lPresentador.usuarioNoEncontrado(); }
                          } catch (JSONException e) {
@@ -62,7 +62,7 @@ public class LoginModelo implements LoginInterface.Modelo {
                          }
                     }
              }
-        });*/
+        });
     }
 
     Call post(String dni, String clave, Callback callback) {

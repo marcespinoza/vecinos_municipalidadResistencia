@@ -78,9 +78,10 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
     }
 
     @Override
-    public void exitoLogin() {
+    public void exitoLogin(String idComision) {
         dialog.dismiss();
-        Intent Intent = new Intent(this, Servicios_activity.class);
-        startActivity(Intent);
+        Intent intent = new Intent(this, Servicios_activity.class);
+        intent.putExtra("idComision",idComision);
+        startActivity(intent);
     }
 }

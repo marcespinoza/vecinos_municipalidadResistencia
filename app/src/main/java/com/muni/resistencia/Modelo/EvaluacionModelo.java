@@ -12,7 +12,7 @@ public class EvaluacionModelo implements EvaluacionInterface.Modelo {
     }
 
     @Override
-    public void guardarEvaluacion(int idServicio, String calificacion) {
+    public void guardarEvaluacion(String idServicio, String calificacion) {
 
     }
 }
