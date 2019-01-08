@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="5dp"
+    android:background="@color/blue_grey_900"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recolección de residuos pasa entre.."
+        android:fontFamily="@font/roboto_mediumitalic"
+        android:textColor="@color/white"
+        android:layout_marginBottom="28dp"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/buenoBtn"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="50dp"
+         android:layout_marginRight="50dp"
+         android:layout_marginBottom="8dp"
+         android:textSize="17sp"
+         android:background="@drawable/rounded_buena"
+          android:foreground="?attr/selectableItemBackgroundBorderless"
+         android:clickable="true"
+          android:textColor="@color/white"
+         android:fontFamily="@font/roboto_bold"
+         android:text="4 y 6 veces por semana"/>
+
+    <Button
+        android:id="@+id/regularBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="17sp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_bold"
+        android:background="@drawable/rounded_regular"
+        android:text="2 y 3 veces por semana"/>
+
+    <Button
+        android:id="@+id/maloBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:textSize="17sp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_bold"
+        android:background="@drawable/rounded_mala"
+        android:text="2 veces por semana"/>
+
+</LinearLayout>

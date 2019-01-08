@@ -10,17 +10,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.andrognito.flashbar.Flashbar;
-import com.muni.resistencia.Interfaces.Login;
+import com.muni.resistencia.Interfaces.LoginInterface;
 import com.muni.resistencia.Presentador.LoginPresentador;
 import com.muni.resistencia.R;
 
 import dmax.dialog.SpotsDialog;
 
-public class LoginActivity extends AppCompatActivity implements Login.Vista {
+public class LoginActivity extends AppCompatActivity implements LoginInterface.Vista {
 
     private TextView bienvenido;
     private Button login;
-    private Login.Presentador lPresentador;
+    private LoginInterface.Presentador lPresentador;
     private AlertDialog dialog;
     private EditText documento, clave;
 
@@ -64,11 +64,19 @@ public class LoginActivity extends AppCompatActivity implements Login.Vista {
     @Override
     public void errorUsuario() {
         dialog.dismiss();
-        new Flashbar.Builder(LoginActivity.this)
-                .gravity(Flashbar.Gravity.BOTTOM)
-                .duration(3000)
-                .message("This is a basic flashbar")
-                .build().show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new Flashbar.Builder(LoginActivity.this)
+                        .gravity(Flashbar.Gravity.TOP)
+                        .duration(3000)
+                        .backgroundColorRes(R.color.red_400)
+                        .message("Usuario no encontrado")
+                        .build().show();
+            }
+        });
+
+
     }
 
     @Override

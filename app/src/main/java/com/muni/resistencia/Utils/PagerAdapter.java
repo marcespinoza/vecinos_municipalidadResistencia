@@ -4,9 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.muni.resistencia.Vista.Contravencion;
-import com.muni.resistencia.Vista.Servicios;
-import com.muni.resistencia.Vista.Servicios_activity;
+import com.muni.resistencia.Vista.FragmentContravencion;
+import com.muni.resistencia.Vista.FragmentServicios;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     public PagerAdapter(FragmentManager fm){
@@ -14,8 +13,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     }
     @Override    public Fragment getItem(int position) {
         switch (position){
-            case 0: return new Servicios();
-            case 1: return new Contravencion();
+            case 0: return new FragmentServicios();
+            case 1: return new FragmentContravencion();
         }
         return null;
     }

@@ -267,7 +267,7 @@
                     android:padding="5dp"
                     android:textSize="13sp"
                     android:textColor="@color/black"
-                    android:text="Zanjas y desagues"/>
+                    android:text="Zanjas y desagües"/>
 
             </LinearLayout>
 
@@ -329,7 +329,7 @@
                     android:padding="5dp"
                     android:textSize="13sp"
                     android:textColor="@color/black"
-                    android:text="Iluminicación espacio público"/>
+                    android:text="Iluminación espacio público"/>
 
             </LinearLayout>
 

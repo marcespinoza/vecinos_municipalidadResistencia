@@ -1,9 +1,7 @@
 package com.muni.resistencia.Vista;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -17,19 +15,19 @@ import com.muni.resistencia.R;
 
 
 
-public class Contravencion extends Fragment {
+public class FragmentContravencion extends Fragment {
 
     Dialog popup, evaluacionPopUp;
     GridLayout mainGrid;
     Button reclamo, evaluacion;
 
-    public Contravencion() {
+    public FragmentContravencion() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static Contravencion newInstance(String param1, String param2) {
-        Contravencion fragment = new Contravencion();
+    public static FragmentContravencion newInstance(String param1, String param2) {
+        FragmentContravencion fragment = new FragmentContravencion();
         return fragment;
     }
 

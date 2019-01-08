@@ -1,33 +1,31 @@
 package com.muni.resistencia.Vista;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 
+import com.muni.resistencia.Interfaces.EvaluacionInterface;
+import com.muni.resistencia.Interfaces.ReclamoInterface;
+import com.muni.resistencia.Presentador.EvaluacionPresentador;
+import com.muni.resistencia.Presentador.ReclamoPresentador;
 import com.muni.resistencia.R;
 
 
-public class Servicios extends Fragment {
+public class FragmentServicios extends Fragment {
 
     GridLayout mainGrid;
-    Dialog popup, evaluacionPopUp;
+    Dialog popup, evaluacionPopUp, evaluacionResiduoPopUp;
     Button reclamo, evaluacion, bueno, regular, malo;
     int iDservicio;
-
-    public static Servicios newInstance(String param1, String param2) {
-        Servicios fragment = new Servicios();
-        return fragment;
-    }
+    EvaluacionInterface.Presentador evaluacionPresentador;
+    ReclamoInterface.Presentador reclamoPresentador;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,18 +39,17 @@ public class Servicios extends Fragment {
                 @Override
                 public void onClick(View view) {
                     switch (gridLayout.indexOfChild(view)){
-                        case 0: iDservicio = 1; break;
-                        case 1: iDservicio = 2; break;
-                        case 2: iDservicio = 3; break;
-                        case 3: iDservicio = 4; break;
-                        case 4: iDservicio = 5; break;
-                        case 5: iDservicio = 6; break;
-                        case 6: iDservicio = 7; break;
-                        case 7: iDservicio = 8; break;
-                        case 8: iDservicio = 9; break;
-                        case 9: iDservicio = 10; break;
+                        case 1: iDservicio = 1; break;
+                        case 2: iDservicio = 2; break;
+                        case 3: iDservicio = 3; break;
+                        case 4: iDservicio = 4; break;
+                        case 5: iDservicio = 5; break;
+                        case 6: iDservicio = 6; break;
+                        case 7: iDservicio = 7; break;
+                        case 8: iDservicio = 8; break;
+                        case 9: iDservicio = 9; break;
+                        case 10: iDservicio = 10; break;
                     }
-
                     popup.show();
                 }
             });
@@ -63,6 +60,8 @@ public class Servicios extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_servicios, container, false);
+        evaluacionPresentador = new EvaluacionPresentador();
+        reclamoPresentador = new ReclamoPresentador();
         mainGrid =  v.findViewById(R.id.gridMain);
         popup = new Dialog(getActivity());
         popup.setContentView(R.layout.popup_servicios);
@@ -72,6 +71,7 @@ public class Servicios extends Fragment {
             @Override
             public void onClick(View view) {
                 popup.dismiss();
+                if(iDservicio!=3){
                 evaluacionPopUp = new Dialog(getActivity());
                 evaluacionPopUp.setContentView(R.layout.popup_calificacion);
                 evaluacionPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
@@ -97,6 +97,12 @@ public class Servicios extends Fragment {
                     }
                 });
                 evaluacionPopUp.show();
+            }else{
+                    evaluacionResiduoPopUp = new Dialog(getActivity());
+                    evaluacionResiduoPopUp.setContentView(R.layout.popup_calificacion_residuos);
+                    evaluacionResiduoPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
+                    evaluacionResiduoPopUp.show();
+                }
             }
         });
         reclamo.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +110,8 @@ public class Servicios extends Fragment {
             public void onClick(View view) {
                 popup.dismiss();
                 Intent i = new Intent(getActivity(), Reclamo_activity.class);
+                i.putExtra("IdServicio", iDservicio);
+                i.putExtra("IdComision", iDservicio);
                 startActivity(i);
             }
         });

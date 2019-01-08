@@ -2,7 +2,7 @@ package com.muni.resistencia.Presentador;
 
 import android.text.TextUtils;
 
-import com.muni.resistencia.Interfaces.Login;
+import com.muni.resistencia.Interfaces.LoginInterface;
 import com.muni.resistencia.Modelo.LoginModelo;
 import com.muni.resistencia.Vista.LoginActivity;
 
@@ -11,10 +11,10 @@ import com.muni.resistencia.Vista.LoginActivity;
  * Created by Marceloi7 on 03/04/2018.
  */
 
-public class LoginPresentador implements Login.Presentador {
+public class LoginPresentador implements LoginInterface.Presentador {
 
-    private Login.Vista lVista;
-    private Login.Modelo lModelo;
+    private LoginInterface.Vista lVista;
+    private LoginInterface.Modelo lModelo;
 
     public LoginPresentador(LoginActivity lVista) {
         this.lVista=lVista;
