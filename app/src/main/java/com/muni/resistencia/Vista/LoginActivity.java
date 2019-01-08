@@ -75,8 +75,6 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
                         .build().show();
             }
         });
-
-
     }
 
     @Override

@@ -27,6 +27,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.muni.resistencia.Interfaces.ReclamoInterface;
+import com.muni.resistencia.Presentador.ReclamoPresentador;
 import com.muni.resistencia.R;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -46,7 +48,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCallback{
+public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCallback, ReclamoInterface.Vista{
 
     SupportMapFragment mapFragment;
     TextView ubicacion;
@@ -55,11 +57,13 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
     Marker marker = null;
     LatLng latLong;
     String IdServicio, IdComision;
+    ReclamoInterface.Presentador presentador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reclamo_activity);
+        presentador = new ReclamoPresentador(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             IdServicio = extras.getString("IdServicio");
@@ -82,7 +86,7 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
                      Snackbar snackbar = Snackbar.make(coordinatorLayout, "Selecciona una ubicación", Snackbar.LENGTH_LONG);
                      snackbar.show();
                 }else{
-                    guardarReclamo();
+                    presentador.guardarReclamo(IdComision, IdServicio, ubicacion.getText().toString());
                 }
             }
         });
@@ -111,64 +115,7 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
         });
     }
 
-    private void guardarReclamo(){
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy / MM / dd ");
-        String strDate = "Current Date : " + mdformat.format(calendar.getTime());
 
-
-        post( new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Reclamo_activity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        ubicacion.setText("");
-                        Toast.makeText(Reclamo_activity.this, "Error al registrar el reclamo", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    Reclamo_activity.this.runOnUiThread(new Runnable() {
-                        public void run() {
-                            ubicacion.setText("");
-                            Toast.makeText(Reclamo_activity.this, "Reclamo registrado", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else {
-                    Reclamo_activity.this.runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(Reclamo_activity.this, "Error al registrar reclamo", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-        });
-
-
-    }
-
-    Call post(Callback callback) {
-        OkHttpClient client = new OkHttpClient();
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        String fechaActual = df.format(Calendar.getInstance().getTime());
-        RequestBody formBody = new FormBody.Builder()
-                .add("idServicio", "20")
-                .add("idComision", "20")
-                .add("ubicacion", ubicacion.getText().toString())
-                .add("estado", "Your message")
-                .add("fecha", fechaActual)
-                .build();
-        Request request = new Request.Builder()
-                .url("http://resistencia.gob.ar/vecinosdb/vecinos_api/index.php/api/reclamo")
-                .post(formBody)
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(callback);
-        return call;
-    }
 
     private void showcase(){
         Prefs.putBoolean("showcasereclamo",true);
@@ -202,5 +149,9 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
         }
         return connected;
     }
-    
+
+    @Override
+    public void mostrarToast() {
+
+    }
 }

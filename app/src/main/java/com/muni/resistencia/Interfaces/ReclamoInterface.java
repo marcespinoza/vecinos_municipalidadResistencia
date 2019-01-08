@@ -2,14 +2,14 @@ package com.muni.resistencia.Interfaces;
 
 public interface ReclamoInterface {
     interface Vista{
-        void mostrarToast();
+        void mostrarToast(String mensaje);
     }
 
     interface Presentador{
-        void guardarReclamo();
-        void mostrarToast();
+        void guardarReclamo(String idComision, String idServicio, String ubicacion);
+        void mostrarToast(String mensaje);
     }
     interface Modelo{
-        void guardarReclamo();
+        void guardarReclamo(String idComision, String idServicio, String ubicacion);
     }
 }

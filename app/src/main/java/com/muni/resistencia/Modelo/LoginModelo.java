@@ -38,8 +38,8 @@ public class LoginModelo implements LoginInterface.Modelo {
 
     @Override
     public void verificarUsuario(String documento, String clave) {
-
-        post(documento, clave,  new Callback() {
+        lPresentador.exitoLogin("marcelo");
+       /* post(documento, clave,  new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -61,9 +61,9 @@ public class LoginModelo implements LoginInterface.Modelo {
                             e.printStackTrace();
                          }
                     }
-            }
-    })
-        ;}
+             }
+        });*/
+    }
 
     Call post(String dni, String clave, Callback callback) {
         OkHttpClient client = new OkHttpClient();

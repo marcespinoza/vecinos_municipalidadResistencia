@@ -25,7 +25,6 @@ public class FragmentServicios extends Fragment {
     Button reclamo, evaluacion, bueno, regular, malo;
     int iDservicio;
     EvaluacionInterface.Presentador evaluacionPresentador;
-    ReclamoInterface.Presentador reclamoPresentador;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,6 @@ public class FragmentServicios extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_servicios, container, false);
         evaluacionPresentador = new EvaluacionPresentador();
-        reclamoPresentador = new ReclamoPresentador();
         mainGrid =  v.findViewById(R.id.gridMain);
         popup = new Dialog(getActivity());
         popup.setContentView(R.layout.popup_servicios);
@@ -79,21 +77,21 @@ public class FragmentServicios extends Fragment {
                 bueno.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        evaluacionPresentador.enviarEvaluacion(iDservicio, "bueno");
                     }
                 });
                 Button regular = evaluacionPopUp.findViewById(R.id.regularBtn);
                 regular.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        evaluacionPresentador.enviarEvaluacion(iDservicio, "regular");
                     }
                 });
                 Button malo = evaluacionPopUp.findViewById(R.id.maloBtn);
                 malo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        evaluacionPresentador.enviarEvaluacion(iDservicio, "malo");
                     }
                 });
                 evaluacionPopUp.show();
