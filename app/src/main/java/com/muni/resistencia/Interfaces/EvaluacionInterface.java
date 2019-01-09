@@ -3,16 +3,14 @@ package com.muni.resistencia.Interfaces;
 public interface EvaluacionInterface {
 
     interface Vista{
-        void exitoRegistro();
-        void errorRegistro();
+        void mostrarToast(String mensaje);
     }
     interface Presentador{
-        void enviarEvaluacion(String idServicio, String calificacion);
-        void exitoRegistro();
-        void errorRegistro();
+        void enviarEvaluacion(String idComision, String idServicio, String calificacion);
+        void mostrarToast(String mensaje);
     }
     interface Modelo{
-        void guardarEvaluacion(String idServicio, String calificacion);
+        void guardarEvaluacion(String idComision, String idServicio, String calificacion);
     }
 
 }

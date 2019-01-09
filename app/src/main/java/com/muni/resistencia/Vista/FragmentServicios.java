@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 
 import com.muni.resistencia.Interfaces.EvaluacionInterface;
 import com.muni.resistencia.Interfaces.ReclamoInterface;
@@ -18,7 +20,7 @@ import com.muni.resistencia.Presentador.ReclamoPresentador;
 import com.muni.resistencia.R;
 
 
-public class FragmentServicios extends Fragment {
+public class FragmentServicios extends Fragment implements EvaluacionInterface.Vista {
 
     GridLayout mainGrid;
     Dialog popup, evaluacionPopUp, evaluacionResiduoPopUp;
@@ -39,16 +41,16 @@ public class FragmentServicios extends Fragment {
                 @Override
                 public void onClick(View view) {
                     switch (gridLayout.indexOfChild(view)){
-                        case 1: idServicio = "1"; break;
-                        case 2: idServicio = "2"; break;
-                        case 3: idServicio = "3"; break;
-                        case 4: idServicio = "4"; break;
-                        case 5: idServicio = "5"; break;
-                        case 6: idServicio = "6"; break;
-                        case 7: idServicio = "7"; break;
-                        case 8: idServicio = "8"; break;
-                        case 9: idServicio = "9"; break;
-                        case 10: idServicio = "10"; break;
+                        case 0: idServicio = "1"; break;
+                        case 1: idServicio = "2"; break;
+                        case 2: idServicio = "3"; break;
+                        case 3: idServicio = "4"; break;
+                        case 4: idServicio = "5"; break;
+                        case 5: idServicio = "6"; break;
+                        case 6: idServicio = "7"; break;
+                        case 7: idServicio = "8"; break;
+                        case 8: idServicio = "9"; break;
+                        case 9: idServicio = "10"; break;
                     }
                     popup.show();
                 }
@@ -60,7 +62,7 @@ public class FragmentServicios extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_servicios, container, false);
-        evaluacionPresentador = new EvaluacionPresentador();
+        evaluacionPresentador = new EvaluacionPresentador(this);
         mainGrid =  v.findViewById(R.id.gridMain);
         popup = new Dialog(getActivity());
         popup.setContentView(R.layout.popup_servicios);
@@ -70,7 +72,7 @@ public class FragmentServicios extends Fragment {
             @Override
             public void onClick(View view) {
                 popup.dismiss();
-                if(!idServicio.equalsIgnoreCase("3")){
+                if(!idServicio.equalsIgnoreCase("4")){
                 evaluacionPopUp = new Dialog(getActivity());
                 evaluacionPopUp.setContentView(R.layout.popup_calificacion);
                 evaluacionPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
@@ -78,21 +80,21 @@ public class FragmentServicios extends Fragment {
                 bueno.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        evaluacionPresentador.enviarEvaluacion(idServicio, "bueno");
+                        evaluacionPresentador.enviarEvaluacion(idComision, idServicio, "bueno");
                     }
                 });
                 Button regular = evaluacionPopUp.findViewById(R.id.regularBtn);
                 regular.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        evaluacionPresentador.enviarEvaluacion(idServicio, "regular");
+                        evaluacionPresentador.enviarEvaluacion(idComision, idServicio, "regular");
                     }
                 });
                 Button malo = evaluacionPopUp.findViewById(R.id.maloBtn);
                 malo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        evaluacionPresentador.enviarEvaluacion(idServicio, "malo");
+                        evaluacionPresentador.enviarEvaluacion(idComision, idServicio, "malo");
                     }
                 });
                 evaluacionPopUp.show();
@@ -120,4 +122,14 @@ public class FragmentServicios extends Fragment {
     }
 
 
+    @Override
+    public void mostrarToast(final String mensaje) {
+        evaluacionPopUp.dismiss();
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                final Toast toast = Toast.makeText(getActivity(), mensaje,  Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+    }
 }
