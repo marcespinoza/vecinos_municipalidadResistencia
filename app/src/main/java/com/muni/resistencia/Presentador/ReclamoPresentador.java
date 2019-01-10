@@ -15,8 +15,8 @@ public class ReclamoPresentador implements ReclamoInterface.Presentador {
     }
 
     @Override
-    public void guardarReclamo(String idComision, String idServicio, String ubicacion) {
-        modelo.guardarReclamo(idComision, idServicio, ubicacion);
+    public void guardarReclamo(String idComision, String idServicio, String idContravencion, String ubicacion) {
+        modelo.guardarReclamo(idComision, idServicio, idContravencion, ubicacion);
     }
 
     @Override

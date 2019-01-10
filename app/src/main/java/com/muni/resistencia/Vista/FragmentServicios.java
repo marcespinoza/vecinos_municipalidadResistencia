@@ -6,18 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
-
 import com.muni.resistencia.Interfaces.EvaluacionInterface;
-import com.muni.resistencia.Interfaces.ReclamoInterface;
 import com.muni.resistencia.Presentador.EvaluacionPresentador;
-import com.muni.resistencia.Presentador.ReclamoPresentador;
 import com.muni.resistencia.R;
 
 import dmax.dialog.SpotsDialog;
@@ -113,6 +109,7 @@ public class FragmentServicios extends Fragment implements EvaluacionInterface.V
                 Intent i = new Intent(getActivity(), Reclamo_activity.class);
                 i.putExtra("idServicio", idServicio);
                 i.putExtra("IdComision", idComision);
+                i.putExtra("tipo","servicio");
                 startActivity(i);
             }
         });

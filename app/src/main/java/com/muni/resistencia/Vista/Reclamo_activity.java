@@ -1,5 +1,6 @@
 package com.muni.resistencia.Vista;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Color;
@@ -33,20 +34,11 @@ import com.muni.resistencia.R;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import dmax.dialog.SpotsDialog;
 import me.toptas.fancyshowcase.FancyShowCaseView;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCallback, ReclamoInterface.Vista{
 
@@ -56,8 +48,11 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
     Button reclamoBtn;
     Marker marker = null;
     LatLng latLong;
-    String idServicio, IdComision;
+    String idServicio = "";
+    String idContravencion = "";
+    String tipo, idComision;
     ReclamoInterface.Presentador presentador;
+    AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +61,15 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
         presentador = new ReclamoPresentador(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            idServicio = extras.getString("idServicio");
-            IdComision = extras.getString("IdComision");
+            idServicio = extras.getString("idServicio","");
+            idContravencion = extras.getString("idContravencion","");
+            idComision = extras.getString("IdComision");
+            tipo = extras.getString("tipo");
         }
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Registrando reclamo..")
+                .build();
         ubicacion = findViewById(R.id.ubicacion);
         coordinatorLayout =findViewById(R.id.coordinatorLayout);
         // Initialize the Prefs class
@@ -85,8 +86,9 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
                 if(ubicacion.getText().equals("")){
                      Snackbar snackbar = Snackbar.make(coordinatorLayout, "Selecciona una ubicación", Snackbar.LENGTH_LONG);
                      snackbar.show();
-                }else{                    
-                    presentador.guardarReclamo(IdComision, idServicio, ubicacion.getText().toString());
+                }else{
+                    dialog.show();
+                    presentador.guardarReclamo(idComision, idServicio, idContravencion, ubicacion.getText().toString());
                 }
             }
         });
@@ -99,9 +101,9 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        googleMap.addPolygon(new PolygonOptions()
+      /*  googleMap.addPolygon(new PolygonOptions()
                 .add(new LatLng(-27.444860305988339,-58.993571074209129), new LatLng(-27.438544438076047,-58.986453427127174), new LatLng(-27.444910561872952,-58.979515227145235),new LatLng( -27.451112212282002,-58.986513341637689),new LatLng( -27.444860305988339,-58.993571074209129))
-                .strokeColor(Color.CYAN).fillColor(Color.TRANSPARENT));
+                .strokeColor(Color.CYAN).fillColor(Color.TRANSPARENT));*/
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-27.451024, -58.986687), 15));
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -152,6 +154,7 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     public void mostrarToast(final String mensaje) {
+        dialog.dismiss();
         runOnUiThread(new Runnable() {
             public void run() {
                 final Toast toast = Toast.makeText(Reclamo_activity.this, mensaje,  Toast.LENGTH_LONG);

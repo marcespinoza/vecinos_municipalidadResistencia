@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:weightSum="3">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_location_icon"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            >
+
+        <TextView
+            android:id="@+id/ubicacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawable="@drawable/gps"
+            android:gravity="center"
+            android:text=""
+            android:textSize="11sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_height="1dp"
+                android:background="@color/grey_400"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_light"
+                android:text="UBICACIÓN"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom">
+
+            <Button
+                android:id="@+id/reclamo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_bold"
+                android:background="@drawable/iniciar_reclamo_button"
+                android:text="Enviar Reclamo" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/map"
+        android:layout_weight="2"
+        android:layout_margin="5dp"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:context="com.example.mapwithmarker.MapsMarkerActivity" >
+    </fragment>
+
+</LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

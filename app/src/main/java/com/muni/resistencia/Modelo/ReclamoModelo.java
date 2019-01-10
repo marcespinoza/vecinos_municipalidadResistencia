@@ -29,7 +29,7 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
     }
 
 
-    void post(String idComision, String idServicio, String ubicacion) {
+    void post(String idComision, String idServicio, String idContravencion, String ubicacion) {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("yyyy / MM / dd ");
         String strDate = "Current Date : " + mdformat.format(calendar.getTime());
@@ -39,6 +39,7 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
         RequestBody formBody = new FormBody.Builder()
                 .add("idComision", idComision)
                 .add("idServicio", idServicio)
+                .add("idContravencion", idContravencion)
                 .add("ubicacion", ubicacion)
                 .add("estado", "0")
                 .add("fecha", fechaActual)
@@ -67,7 +68,7 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
     }
 
     @Override
-    public void guardarReclamo(String idComision, String idServicio, String ubicacion) {
-        post(idComision, idServicio, ubicacion);
+    public void guardarReclamo(String idComision, String idServicio, String idContravencion, String ubicacion) {
+        post(idComision, idServicio, idContravencion, ubicacion);
     }
 }
