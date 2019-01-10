@@ -1,5 +1,6 @@
 package com.muni.resistencia.Vista;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,20 +20,107 @@ import com.muni.resistencia.Presentador.EvaluacionPresentador;
 import com.muni.resistencia.Presentador.ReclamoPresentador;
 import com.muni.resistencia.R;
 
+import dmax.dialog.SpotsDialog;
+
 
 public class FragmentServicios extends Fragment implements EvaluacionInterface.Vista {
 
     GridLayout mainGrid;
     Dialog popup, evaluacionPopUp, evaluacionResiduoPopUp;
-    Button reclamo, evaluacion, bueno, regular, malo;
+    Button reclamo, evaluacion;
     String idServicio, idComision;
     EvaluacionInterface.Presentador evaluacionPresentador;
+    private AlertDialog dialog;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_servicios, container, false);
         idComision = getActivity().getIntent().getExtras().getString("idComision");
+        evaluacionPresentador = new EvaluacionPresentador(this);
+        dialog = new SpotsDialog.Builder()
+                .setContext(getActivity())
+                .setMessage("Registrando evaluacion..")
+                .build();
+        mainGrid =  v.findViewById(R.id.gridMain);
+        popup = new Dialog(getActivity());
+        popup.setContentView(R.layout.popup_servicios);
+        reclamo = popup.findViewById(R.id.reclamo);
+        evaluacion = popup.findViewById(R.id.evaluacion);
+        evaluacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popup.dismiss();
+                if(!idServicio.equalsIgnoreCase("4")){
+                evaluacionPopUp = new Dialog(getActivity());
+                evaluacionPopUp.setContentView(R.layout.popup_calificacion);
+                evaluacionPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
+                Button bueno = evaluacionPopUp.findViewById(R.id.buenoBtn);
+                bueno.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        enviarEvaluacion(idComision, idServicio, "1");
+                    }
+                });
+                Button regular = evaluacionPopUp.findViewById(R.id.regularBtn);
+                regular.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        enviarEvaluacion(idComision, idServicio, "5");
+                    }
+                });
+                Button malo = evaluacionPopUp.findViewById(R.id.maloBtn);
+                malo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        enviarEvaluacion(idComision, idServicio, "9");
+                    }
+                });
+                evaluacionPopUp.show();
+            }else{
+                    evaluacionResiduoPopUp = new Dialog(getActivity());
+                    evaluacionResiduoPopUp.setContentView(R.layout.popup_calificacion_residuos);
+                    evaluacionResiduoPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
+                    Button bueno = evaluacionResiduoPopUp.findViewById(R.id.bueno_Btn);
+                    bueno.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            enviarEvaluacion(idComision, idServicio, "1");
+                        }
+                    });
+                    Button regular = evaluacionResiduoPopUp.findViewById(R.id.regular_Btn);
+                    regular.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            enviarEvaluacion(idComision, idServicio, "5");
+                        }
+                    });
+                    Button malo = evaluacionResiduoPopUp.findViewById(R.id.malo_Btn);
+                    malo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            enviarEvaluacion(idComision, idServicio, "9");
+                        }
+                    });
+                    evaluacionResiduoPopUp.show();
+                }
+            }
+        });
+        reclamo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popup.dismiss();
+                Intent i = new Intent(getActivity(), Reclamo_activity.class);
+                i.putExtra("idServicio", idServicio);
+                i.putExtra("IdComision", idComision);
+                startActivity(i);
+            }
+        });
+        popup.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
+        setGridListener(mainGrid);
+        return v;
     }
+
 
     private void setGridListener(final GridLayout gridLayout){
         for(int i=0; i<gridLayout.getChildCount(); i++){
@@ -58,73 +146,16 @@ public class FragmentServicios extends Fragment implements EvaluacionInterface.V
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_servicios, container, false);
-        evaluacionPresentador = new EvaluacionPresentador(this);
-        mainGrid =  v.findViewById(R.id.gridMain);
-        popup = new Dialog(getActivity());
-        popup.setContentView(R.layout.popup_servicios);
-        reclamo = popup.findViewById(R.id.reclamo);
-        evaluacion = popup.findViewById(R.id.evaluacion);
-        evaluacion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popup.dismiss();
-                if(!idServicio.equalsIgnoreCase("4")){
-                evaluacionPopUp = new Dialog(getActivity());
-                evaluacionPopUp.setContentView(R.layout.popup_calificacion);
-                evaluacionPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
-                Button bueno = evaluacionPopUp.findViewById(R.id.buenoBtn);
-                bueno.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        evaluacionPresentador.enviarEvaluacion(idComision, idServicio, "bueno");
-                    }
-                });
-                Button regular = evaluacionPopUp.findViewById(R.id.regularBtn);
-                regular.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        evaluacionPresentador.enviarEvaluacion(idComision, idServicio, "regular");
-                    }
-                });
-                Button malo = evaluacionPopUp.findViewById(R.id.maloBtn);
-                malo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        evaluacionPresentador.enviarEvaluacion(idComision, idServicio, "malo");
-                    }
-                });
-                evaluacionPopUp.show();
-            }else{
-                    evaluacionResiduoPopUp = new Dialog(getActivity());
-                    evaluacionResiduoPopUp.setContentView(R.layout.popup_calificacion_residuos);
-                    evaluacionResiduoPopUp.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
-                    evaluacionResiduoPopUp.show();
-                }
-            }
-        });
-        reclamo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popup.dismiss();
-                Intent i = new Intent(getActivity(), Reclamo_activity.class);
-                i.putExtra("idServicio", idServicio);
-                i.putExtra("IdComision", idComision);
-                startActivity(i);
-            }
-        });
-        popup.getWindow().getAttributes().windowAnimations = R.style.DialogSlide;
-        setGridListener(mainGrid);
-        return v;
+    void enviarEvaluacion(String idComision, String idServicio, String calificacion){
+      if(evaluacionPopUp!=null) evaluacionPopUp.dismiss();
+      if(evaluacionResiduoPopUp!=null) evaluacionResiduoPopUp.dismiss();
+        dialog.show();
+        evaluacionPresentador.enviarEvaluacion(idComision, idServicio, "5");
     }
-
 
     @Override
     public void mostrarToast(final String mensaje) {
-        evaluacionPopUp.dismiss();
+        dialog.dismiss();
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 final Toast toast = Toast.makeText(getActivity(), mensaje,  Toast.LENGTH_LONG);
