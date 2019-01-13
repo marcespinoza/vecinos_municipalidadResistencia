@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import com.muni.resistencia.Interfaces.EvaluacionInterface;
 import com.muni.resistencia.Presentador.EvaluacionPresentador;
 import com.muni.resistencia.R;
+
+import java.util.Calendar;
 
 import dmax.dialog.SpotsDialog;
 
@@ -36,7 +39,7 @@ public class FragmentServicios extends Fragment implements EvaluacionInterface.V
         evaluacionPresentador = new EvaluacionPresentador(this);
         dialog = new SpotsDialog.Builder()
                 .setContext(getActivity())
-                .setMessage("Registrando evaluacion..")
+                .setMessage("Registrando evaluación..")
                 .build();
         mainGrid =  v.findViewById(R.id.gridMain);
         popup = new Dialog(getActivity());
@@ -55,7 +58,7 @@ public class FragmentServicios extends Fragment implements EvaluacionInterface.V
                 bueno.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        enviarEvaluacion(idComision, idServicio, "1");
+                        enviarEvaluacion(idComision, idServicio, "9");
                     }
                 });
                 Button regular = evaluacionPopUp.findViewById(R.id.regularBtn);
@@ -69,7 +72,7 @@ public class FragmentServicios extends Fragment implements EvaluacionInterface.V
                 malo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        enviarEvaluacion(idComision, idServicio, "9");
+                        enviarEvaluacion(idComision, idServicio, "1");
                     }
                 });
                 evaluacionPopUp.show();
@@ -81,7 +84,7 @@ public class FragmentServicios extends Fragment implements EvaluacionInterface.V
                     bueno.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            enviarEvaluacion(idComision, idServicio, "1");
+                            enviarEvaluacion(idComision, idServicio, "9");
                         }
                     });
                     Button regular = evaluacionResiduoPopUp.findViewById(R.id.regular_Btn);
@@ -95,7 +98,7 @@ public class FragmentServicios extends Fragment implements EvaluacionInterface.V
                     malo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            enviarEvaluacion(idComision, idServicio, "9");
+                            enviarEvaluacion(idComision, idServicio, "1");
                         }
                     });
                     evaluacionResiduoPopUp.show();
@@ -147,7 +150,7 @@ public class FragmentServicios extends Fragment implements EvaluacionInterface.V
       if(evaluacionPopUp!=null) evaluacionPopUp.dismiss();
       if(evaluacionResiduoPopUp!=null) evaluacionResiduoPopUp.dismiss();
         dialog.show();
-        evaluacionPresentador.enviarEvaluacion(idComision, idServicio, "5");
+        evaluacionPresentador.enviarEvaluacion(idComision, idServicio, calificacion);
     }
 
     @Override

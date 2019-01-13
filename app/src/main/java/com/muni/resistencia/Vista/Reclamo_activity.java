@@ -123,7 +123,7 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
         Prefs.putBoolean("showcasereclamo",true);
         new FancyShowCaseView.Builder(this)
                 .focusOn(findViewById(R.id.map))
-                .title("Mantenga presionado sobre el mapa para elegir la ubicación del reclamo")
+                .title("Toque sobre el mapa para elegir la ubicación del reclamo")
                 .build()
                 .show();
     }
