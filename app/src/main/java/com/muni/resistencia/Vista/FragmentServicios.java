@@ -35,7 +35,10 @@ public class FragmentServicios extends Fragment implements EvaluacionInterface.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_servicios, container, false);
-        idComision = getActivity().getIntent().getExtras().getString("idComision");
+        Bundle extras = getActivity().getIntent().getExtras();
+        if(extras != null) {
+            idComision = getActivity().getIntent().getExtras().getString("idComision");
+        }
         evaluacionPresentador = new EvaluacionPresentador(this);
         dialog = new SpotsDialog.Builder()
                 .setContext(getActivity())

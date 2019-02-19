@@ -26,6 +26,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAubi1lZAaD8ZUfmh3O9TRmGaDnqizzUCg"/>
+        <receiver android:name=".Utils.BroadcastReceiver"
+            android:process=":remote">
+        </receiver>
     </application>
 
 </manifest>

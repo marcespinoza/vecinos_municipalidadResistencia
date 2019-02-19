@@ -23,6 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
+                                                <entry key="scalingPercent" value="9" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -45,7 +46,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="85" />
+                                                <entry key="scalingPercent" value="103" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -56,10 +57,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="18ceff" />
-                                      <entry key="foregroundImage" value="F:\Users\ACER CORE I7\Desktop\leader.png" />
-                                      <entry key="generateRoundIcon" value="false" />
+                                      <entry key="foregroundImage" value="F:\Users\ACER CORE I7\Desktop\appvecinos.png" />
                                       <entry key="previewDensity" value="HIGH" />
                                       <entry key="webIconShape" value="CIRCLE" />
                                     </map>
@@ -88,8 +87,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_location_icon" />
-                            <entry key="sourceFile" value="F:\Android\Vecinos\app\src\main\res\drawable\location_icon.svg" />
+                            <entry key="outputName" value="ic_reclamo" />
+                            <entry key="sourceFile" value="F:\Users\ACER CORE I7\Desktop\reclamo.svg" />
                           </map>
                         </option>
                       </PersistentState>

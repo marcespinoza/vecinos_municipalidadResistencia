@@ -1,6 +1,8 @@
 package com.muni.resistencia.Vista;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +12,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andrognito.flashbar.Flashbar;
 import com.muni.resistencia.Interfaces.LoginInterface;
 import com.muni.resistencia.Presentador.LoginPresentador;
 import com.muni.resistencia.R;
+import com.muni.resistencia.Utils.BroadcastReceiver;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import butterknife.BindView;
@@ -112,4 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
         startActivity(intent);
         finish();
     }
+
+
+
 }

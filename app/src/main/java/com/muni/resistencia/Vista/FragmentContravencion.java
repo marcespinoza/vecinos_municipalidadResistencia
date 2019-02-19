@@ -18,15 +18,16 @@ import com.muni.resistencia.R;
 public class FragmentContravencion extends Fragment {
 
     GridLayout mainGrid;
-    Button reclamo, evaluacion;
     String idContravencion, idComision;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_contravencion, container, false);
-        idComision = getActivity().getIntent().getExtras().getString("idComision");
+        Bundle extras = getActivity().getIntent().getExtras();
+        if(extras != null) {
+            idComision = getActivity().getIntent().getExtras().getString("idComision");
+        }
         mainGrid =  v.findViewById(R.id.gridMain);
         setGridListener(mainGrid);
         return v;

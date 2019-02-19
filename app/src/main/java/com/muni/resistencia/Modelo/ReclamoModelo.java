@@ -1,10 +1,15 @@
 package com.muni.resistencia.Modelo;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.muni.resistencia.Interfaces.ReclamoInterface;
 import com.muni.resistencia.Presentador.ReclamoPresentador;
+import com.muni.resistencia.Utils.BroadcastReceiver;
 import com.muni.resistencia.Utils.DiffDays;
 import com.muni.resistencia.Utils.VecinosApplication;
 import com.muni.resistencia.Vista.Reclamo_activity;
@@ -25,6 +30,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.content.Context.ALARM_SERVICE;
+
 public class ReclamoModelo implements ReclamoInterface.Modelo{
 
     ReclamoInterface.Presentador presentador;
@@ -40,9 +47,6 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
 
 
     void post(String idComision, String idServicio, String idContravencion, String ubicacion) {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy / MM / dd ");
-        String strDate = "Current Date : " + mdformat.format(calendar.getTime());
         OkHttpClient client = new OkHttpClient();
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String fechaActual = df.format(Calendar.getInstance().getTime());
@@ -66,16 +70,26 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response){
                 if (response.isSuccessful()) {
+                    String id = "";
+                    try {
+                        String evaluacion = response.body().string();
+                        JSONObject jObject = new JSONObject(evaluacion);
+                        id= jObject.getString("id");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     presentador.mostrarToast("Reclamo registrado correctamente");
+                    registrarReclamo(id);
                 } else {
                     presentador.mostrarToast("Error al registrar reclamo");
                 }
             }
         });
     }
-
 
     void ultimoReclamo(final String idComision, final String idServicio, final String idContravencion, final String calificacion) {
         String url = "";
@@ -113,16 +127,14 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
                         JSONObject jObject = new JSONObject(evaluacion);
                         String flag= jObject.getString("mensaje");
                         if(flag.equals("true")){
-                            int diffs = DiffDays.daysDiff(jObject.getString("fecha"));
-
-                            if(diffs>6){
+//                            int diffs = DiffDays.daysDiff(jObject.getString("fecha"));
+//                            if(diffs>6){
                                 post(idComision, idServicio, idContravencion, calificacion);
-                            }else{
-                                presentador.mostrarToast("Debe esperar mas de 7 días para una nueva evaluación");
-                            }
-                        }
-                        else{
-                            post(idComision, idServicio, idContravencion, calificacion);
+//                            }else{
+//                                presentador.mostrarToast("Debe esperar mas de 7 días para una nueva evaluación");
+//                            }
+                        } else{
+                            presentador.mostrarToast("No se pudo guardar el reclamo. Intente nuevamente.");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -136,7 +148,19 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
         });
     }
 
+    void registrarReclamo(String id){
 
+    }
 
+    public void startAlert() {
+
+        Intent intent = new Intent(VecinosApplication.getAppContext(), BroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(VecinosApplication.getAppContext(), 234, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) VecinosApplication.getAppContext().getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
+                5 * 1000 , pendingIntent);
+        Log.i("alarmma","alarmma"+SystemClock.elapsedRealtime() + 5 * 1000 );
+        Toast.makeText(VecinosApplication.getAppContext(), "Alarm set",Toast.LENGTH_LONG).show();
+    }
 
 }
