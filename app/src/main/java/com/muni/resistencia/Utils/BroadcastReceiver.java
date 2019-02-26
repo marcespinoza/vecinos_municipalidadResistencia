@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -22,7 +23,9 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "Alarm ring ring", Toast.LENGTH_LONG).show();
+        Bundle extras = intent.getExtras();
+        int message = extras.getInt("IDRECLAMO");
+        Toast.makeText(context, "Alarm ring ring"+message, Toast.LENGTH_LONG).show();
         createNotification("Reclamo");
     }
 

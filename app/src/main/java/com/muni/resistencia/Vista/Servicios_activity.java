@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.muni.resistencia.Interfaces.RecordatorioInterface;
+import com.muni.resistencia.Presentador.RecordatorioPresentador;
 import com.muni.resistencia.R;
 import com.muni.resistencia.Utils.BroadcastReceiver;
 import com.muni.resistencia.Utils.PagerAdapter;
@@ -29,10 +31,12 @@ import com.pixplicity.easyprefs.library.Prefs;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Servicios_activity extends AppCompatActivity {
+public class Servicios_activity extends AppCompatActivity implements RecordatorioInterface.Vista{
 
+    RecordatorioInterface.Presentador pRecordatorio;
     @BindView(R.id.cerrarSesion)
     TextView cerrarSesion;
+    Button botonSi, botonNo;
     boolean flag = false;
     Dialog popup;
     @Override
@@ -45,6 +49,14 @@ public class Servicios_activity extends AppCompatActivity {
         }
         if(flag){
             popup = new Dialog(this);
+            botonSi = popup.findViewById(R.id.botonsi);
+            botonSi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pRecordatorio.enviarResultado();
+                }
+            });
+            botonNo = popup.findViewById(R.id.botonno);
             popup.setContentView(R.layout.popup_reclamos);
             popup.show();
         }
@@ -63,16 +75,16 @@ public class Servicios_activity extends AppCompatActivity {
         viewPager.setAdapter(myPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
-        startAlert();
+        pRecordatorio = new RecordatorioPresentador(this);
     }
 
-    public void startAlert() {
-
-        Intent intent = new Intent(VecinosApplication.getAppContext(), BroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(VecinosApplication.getAppContext(), 234, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) VecinosApplication.getAppContext().getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10*60000 , pendingIntent);
-        Toast.makeText(VecinosApplication.getAppContext(), "Alarm set",Toast.LENGTH_LONG).show();
+    @Override
+    public void mostrarResultado(final String resultado) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                final Toast toast = Toast.makeText(Servicios_activity.this, resultado,  Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
     }
-
 }

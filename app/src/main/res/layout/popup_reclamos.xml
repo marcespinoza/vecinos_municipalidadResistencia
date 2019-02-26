@@ -28,6 +28,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/botonsi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_si"
@@ -36,6 +37,7 @@
             android:text="Si"/>
 
         <Button
+            android:id="@+id/botonno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_no"

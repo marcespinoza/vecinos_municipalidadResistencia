@@ -42,7 +42,7 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
 
     @Override
     public void guardarReclamo(String idComision, String idServicio, String idContravencion, String ubicacion) {
-        ultimoReclamo(idComision, idServicio, idContravencion, ubicacion);
+        post(idComision, idServicio, idContravencion, ubicacion);
     }
 
 
@@ -72,18 +72,19 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
             @Override
             public void onResponse(Call call, Response response){
                 if (response.isSuccessful()) {
-                    String id = "";
+                    int id;
                     try {
                         String evaluacion = response.body().string();
                         JSONObject jObject = new JSONObject(evaluacion);
-                        id= jObject.getString("id");
+                        id= jObject.getInt("id");
+                        Log.i("idreclamo","idreclamo"+id);
+                        programarAlarma(id);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     presentador.mostrarToast("Reclamo registrado correctamente");
-                    registrarReclamo(id);
                 } else {
                     presentador.mostrarToast("Error al registrar reclamo");
                 }
@@ -152,15 +153,13 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
 
     }
 
-    public void startAlert() {
+    public void programarAlarma(int idreclamo) {
 
         Intent intent = new Intent(VecinosApplication.getAppContext(), BroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(VecinosApplication.getAppContext(), 234, intent, 0);
+        intent.putExtra("IDRECLAMO", idreclamo);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(VecinosApplication.getAppContext(), 234, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) VecinosApplication.getAppContext().getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
-                5 * 1000 , pendingIntent);
-        Log.i("alarmma","alarmma"+SystemClock.elapsedRealtime() + 5 * 1000 );
-        Toast.makeText(VecinosApplication.getAppContext(), "Alarm set",Toast.LENGTH_LONG).show();
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 5 * 1000 , pendingIntent);
     }
 
 }
