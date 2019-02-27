@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.muni.resistencia.R;
 import com.muni.resistencia.Vista.Servicios_activity;
+import com.pixplicity.easyprefs.library.Prefs;
 
 public class BroadcastReceiver extends android.content.BroadcastReceiver {
 
@@ -24,19 +26,26 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
-        int message = extras.getInt("IDRECLAMO");
-        Toast.makeText(context, "Alarm ring ring"+message, Toast.LENGTH_LONG).show();
-        createNotification("Reclamo");
+        initPrefs();
+        if (extras != null) {
+          int idReclamo = extras.getInt("idreclamo",0);
+          String servicio = extras.getString("servicio","");
+          String contravencion = extras.getString("contravencion","");
+          createNotification(idReclamo, servicio, contravencion);
+        }
     }
 
-    public void createNotification(String fecha) {
-
-        Intent myIntent = new Intent(VecinosApplication.getAppContext(), Servicios_activity.class);
-        myIntent.putExtra("popup", true);
+    public void createNotification(int idReclamo, String servicio, String contravencion) {
+        Intent intent = new Intent(VecinosApplication.getAppContext(), Servicios_activity.class);
+        intent.putExtra("popup", true);
+        intent.putExtra("idComision", Prefs.getString("idComision",""));
+        intent.putExtra("idreclamo", idReclamo);
+        intent.putExtra("servicio", servicio);
+        intent.putExtra("contravencion", contravencion);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 VecinosApplication.getAppContext(),
                 0,
-                myIntent,
+                intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         mBuilder = new NotificationCompat.Builder(VecinosApplication.getAppContext(), NOTIFICATION_CHANNEL_ID);
@@ -44,6 +53,7 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
         mBuilder.setContentTitle("Vecinos")
                 .setContentText("Su reclamo ha sido atendido?")
                 .setAutoCancel(true)
+                .setOngoing(true)
                 .setContentIntent(pendingIntent)
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
 
@@ -64,6 +74,15 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
         }
         assert mNotificationManager != null;
         mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
+    }
+
+    void initPrefs(){
+        new Prefs.Builder()
+                .setContext(VecinosApplication.getAppContext())
+                .setMode(ContextWrapper.MODE_PRIVATE)
+                .setPrefsName(VecinosApplication.getAppContext().getPackageName())
+                .setUseDefaultSharedPreference(true)
+                .build();
     }
 
 }

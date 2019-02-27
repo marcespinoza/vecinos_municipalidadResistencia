@@ -7,11 +7,11 @@ public interface RecordatorioInterface {
     }
 
     interface Modelo {
-        void registrarResultado();
+        void registrarResultado(int idreclamo);
     }
 
     interface Presentador{
-        void enviarResultado();
+        void enviarResultado(int idreclamo);
         void mostrarResultado(String resultado);
     }
 

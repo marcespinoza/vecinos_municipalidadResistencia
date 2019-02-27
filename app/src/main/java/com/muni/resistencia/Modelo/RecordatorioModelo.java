@@ -29,16 +29,15 @@ public class RecordatorioModelo implements RecordatorioInterface.Modelo {
     }
 
     @Override
-    public void registrarResultado() {
-
+    public void registrarResultado(int idreclamo) {
+        post(idreclamo);
     }
 
 
     void post(int idReclamo) {
         OkHttpClient client = new OkHttpClient();
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        String fechaActual = df.format(Calendar.getInstance().getTime());
         RequestBody formBody = new FormBody.Builder()
+                .add("idReclamo", String.valueOf(idReclamo))
                 .build();
         Request request = new Request.Builder()
                 .url("http://resistencia.gob.ar/vecinosdb/vecinos_api/index.php/api/cambiarestado")
@@ -48,22 +47,13 @@ public class RecordatorioModelo implements RecordatorioInterface.Modelo {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                rPresentador.mostrarResultado("Error al registrar respuesta");
             }
 
             @Override
             public void onResponse(Call call, Response response){
                 if (response.isSuccessful()) {
                     int id;
-                    try {
-                        String evaluacion = response.body().string();
-                        JSONObject jObject = new JSONObject(evaluacion);
-                        id= jObject.getInt("id");
-                        Log.i("idreclamo","idreclamo"+id);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                     rPresentador.mostrarResultado("Se ha registrado su respuesta.");
                 } else {
                    rPresentador.mostrarResultado("Error al registrar respuesta");

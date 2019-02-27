@@ -15,8 +15,8 @@ public class RecordatorioPresentador implements RecordatorioInterface.Presentado
     }
 
     @Override
-    public void enviarResultado() {
-        rModelo.registrarResultado();
+    public void enviarResultado(int idReclamo) {
+        rModelo.registrarResultado(idReclamo);
     }
 
     @Override

@@ -38,6 +38,9 @@ public class Servicios_activity extends AppCompatActivity implements Recordatori
     TextView cerrarSesion;
     Button botonSi, botonNo;
     boolean flag = false;
+    int idreclamo = 0;
+    String servicio, contravencion;
+    TextView textoReclamo;
     Dialog popup;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,18 +49,30 @@ public class Servicios_activity extends AppCompatActivity implements Recordatori
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             flag = getIntent().getExtras().getBoolean("popup");
+            idreclamo = getIntent().getExtras().getInt("idreclamo");
+            servicio = getIntent().getExtras().getString("servicio", "");
+            contravencion = getIntent().getExtras().getString("contravencion", "");
         }
         if(flag){
             popup = new Dialog(this);
+            popup.setContentView(R.layout.popup_reclamos);
+            textoReclamo = popup.findViewById(R.id.textoreclamo);
+            textoReclamo.setText("Su reclamo "+servicio+contravencion+" ha sido atendido?");
             botonSi = popup.findViewById(R.id.botonsi);
             botonSi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    pRecordatorio.enviarResultado();
+                    popup.dismiss();
+                    pRecordatorio.enviarResultado(idreclamo);
                 }
             });
             botonNo = popup.findViewById(R.id.botonno);
-            popup.setContentView(R.layout.popup_reclamos);
+            botonNo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    popup.dismiss();
+                }
+            });
             popup.show();
         }
         ButterKnife.bind(this);

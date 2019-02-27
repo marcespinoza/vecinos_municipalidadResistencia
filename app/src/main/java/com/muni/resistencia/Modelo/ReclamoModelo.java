@@ -42,11 +42,11 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
 
     @Override
     public void guardarReclamo(String idComision, String idServicio, String idContravencion, String ubicacion) {
-        post(idComision, idServicio, idContravencion, ubicacion);
+            post(idComision, idServicio, idContravencion, ubicacion);
     }
 
 
-    void post(String idComision, String idServicio, String idContravencion, String ubicacion) {
+    void post(String idComision, final String idServicio, final String idContravencion, String ubicacion) {
         OkHttpClient client = new OkHttpClient();
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String fechaActual = df.format(Calendar.getInstance().getTime());
@@ -77,8 +77,7 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
                         String evaluacion = response.body().string();
                         JSONObject jObject = new JSONObject(evaluacion);
                         id= jObject.getInt("id");
-                        Log.i("idreclamo","idreclamo"+id);
-                        programarAlarma(id);
+                        programarAlarma(id, idServicio, idContravencion);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -92,74 +91,41 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
         });
     }
 
-    void ultimoReclamo(final String idComision, final String idServicio, final String idContravencion, final String calificacion) {
-        String url = "";
-        RequestBody formBody;
-        if(idContravencion==""){
-            url = "http://resistencia.gob.ar/vecinosdb/vecinos_api/index.php/api/ultimoreclamo";
-           formBody = new FormBody.Builder()
-                    .add("idComision", idComision)
-                    .add("idServicio", idServicio)
-                    .build();
-        }else{
-            url = "http://resistencia.gob.ar/vecinosdb/vecinos_api/index.php/api/ultimacontravencion";
-           formBody = new FormBody.Builder()
-                    .add("idComision", idComision)
-                    .add("idContravencion", idContravencion)
-                    .build();
+
+    public void programarAlarma(int idreclamo, String idServicio, String idContravencion) {
+        if(!idContravencion.equals("")){
+        switch (Integer.parseInt(idContravencion)){
+            case 1: idContravencion = "Vehiculos abandonados"; break;
+            case 2: idContravencion = "Construcciones en via pública"; break;
+            case 3: idContravencion = "Terrenos con falta de mantenimiento"; break;
+            case 4: idContravencion = "Pérdida de agua servida"; break;
+            case 5: idContravencion = "Arbol en peligro"; break;
+            case 6: idContravencion = "Ruidos molestos"; break;
+            case 7: idContravencion = "Conexiones ilegales"; break;
+            case 8: idContravencion = "Otras contravenciones"; break;
         }
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(url)
-                .post(formBody)
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                presentador.mostrarToast("Error al obtener datos, intente nuevamente.");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    try {
-                        String evaluacion = response.body().string();
-                        JSONObject jObject = new JSONObject(evaluacion);
-                        String flag= jObject.getString("mensaje");
-                        if(flag.equals("true")){
-//                            int diffs = DiffDays.daysDiff(jObject.getString("fecha"));
-//                            if(diffs>6){
-                                post(idComision, idServicio, idContravencion, calificacion);
-//                            }else{
-//                                presentador.mostrarToast("Debe esperar mas de 7 días para una nueva evaluación");
-//                            }
-                        } else{
-                            presentador.mostrarToast("No se pudo guardar el reclamo. Intente nuevamente.");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    presentador.mostrarToast("Error al obtener datos, intente nuevamente.");
-                }
-            }
-        });
-    }
-
-    void registrarReclamo(String id){
-
-    }
-
-    public void programarAlarma(int idreclamo) {
-
+        }
+        if(!idServicio.equals("")){
+        switch (Integer.parseInt(idServicio)){
+            case 1: idServicio = "Barrido calles de pavimento"; break;
+            case 2: idServicio = "Mantenimiento calles pavimentadas y bacheo"; break;
+            case 3: idServicio = "Mantenimiento calles no pavimentadas"; break;
+            case 4: idServicio = "Recolección de residuos"; break;
+            case 5: idServicio = "Desmalezado espacios verdes"; break;
+            case 6: idServicio = "Limpieza espacios publicos"; break;
+            case 7: idServicio = "Zanjas y desagues"; break;
+            case 8: idServicio = "Mantenimiento infraestructura"; break;
+            case 9: idServicio = "Iluminación espacio público"; break;
+            case 10: idServicio = "Señalización espacio público"; break;
+        }
+        }
         Intent intent = new Intent(VecinosApplication.getAppContext(), BroadcastReceiver.class);
-        intent.putExtra("IDRECLAMO", idreclamo);
+        intent.putExtra("idreclamo", idreclamo);
+        intent.putExtra("servicio", idServicio);
+        intent.putExtra("contravencion", idContravencion);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(VecinosApplication.getAppContext(), 234, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) VecinosApplication.getAppContext().getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 5 * 1000 , pendingIntent);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000 * 60 * 60 * 24 * 6 , pendingIntent);
     }
 
 }

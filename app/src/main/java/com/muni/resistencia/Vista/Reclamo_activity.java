@@ -101,9 +101,6 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-      /*  googleMap.addPolygon(new PolygonOptions()
-                .add(new LatLng(-27.444860305988339,-58.993571074209129), new LatLng(-27.438544438076047,-58.986453427127174), new LatLng(-27.444910561872952,-58.979515227145235),new LatLng( -27.451112212282002,-58.986513341637689),new LatLng( -27.444860305988339,-58.993571074209129))
-                .strokeColor(Color.CYAN).fillColor(Color.TRANSPARENT));*/
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-27.451024, -58.986687), 15));
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -116,8 +113,6 @@ public class Reclamo_activity extends AppCompatActivity implements OnMapReadyCal
             }
         });
     }
-
-
 
     private void showcase(){
         Prefs.putBoolean("showcasereclamo",true);
