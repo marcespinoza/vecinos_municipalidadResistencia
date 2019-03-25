@@ -47,7 +47,7 @@ public class EvaluacionModelo implements EvaluacionInterface.Modelo {
                 .add("fecha", fechaActual)
                 .build();
         Request request = new Request.Builder()
-                .url("http://resistencia.gob.ar/vecinosdb/vecinos_api/index.php/api/evaluacion")
+                .url("http://www.mr.gov.ar/v2/sitio/hacienda/vecinos_api/index.php/api/evaluacion")
                 .post(formBody)
                 .build();
         Call call = client.newCall(request);
@@ -76,7 +76,7 @@ public class EvaluacionModelo implements EvaluacionInterface.Modelo {
                 .add("idServicio", idServicio)
                 .build();
         Request request = new Request.Builder()
-                .url("http://resistencia.gob.ar/vecinosdb/vecinos_api/index.php/api/ultimaevaluacion")
+                .url("http://www.mr.gov.ar/v2/sitio/hacienda/vecinos_api/index.php/api/ultimaevaluacion")
                 .post(formBody)
                 .build();
         Call call = client.newCall(request);

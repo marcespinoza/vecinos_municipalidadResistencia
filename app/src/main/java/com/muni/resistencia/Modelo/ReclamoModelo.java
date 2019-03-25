@@ -59,7 +59,7 @@ public class ReclamoModelo implements ReclamoInterface.Modelo{
                 .add("fecha", fechaActual)
                 .build();
         Request request = new Request.Builder()
-                .url("http://resistencia.gob.ar/vecinosdb/vecinos_api/index.php/api/reclamo")
+                .url("http://www.mr.gov.ar/v2/sitio/hacienda/vecinos_api/index.php/api/reclamo")
                 .post(formBody)
                 .build();
         Call call = client.newCall(request);

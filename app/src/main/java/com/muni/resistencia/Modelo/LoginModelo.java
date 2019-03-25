@@ -74,7 +74,7 @@ public class LoginModelo implements LoginInterface.Modelo {
                 .add("clave", clave)
                 .build();
         Request request = new Request.Builder()
-                .url("http://resistencia.gob.ar/vecinosdb/vecinos_api/index.php/api/existepresidente")
+                .url("http://www.mr.gov.ar/v2/sitio/hacienda/vecinos_api/index.php/api/existepresidente")
                 .post(formBody)
                 .build();
         Call call = client.newCall(request);
